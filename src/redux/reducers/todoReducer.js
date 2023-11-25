@@ -1,4 +1,6 @@
-import { ADD_TODO, TOGGLE_TODO } from "../actions/todoActions";
+// import { ADD_TODO, TOGGLE_TODO } from "../actions/todoActions";
+
+const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
   todos: [
@@ -6,31 +8,53 @@ const initialState = {
     { text: "Study at 8", completed: true },
   ],
 };
+// A function that accepts an initial state, an object of reducer functions, and a "slice name", and automatically generates action creators and action types that correspond to the reducers and state.
+const todoSlice = createSlice({
+  name: "counter",
+  initialState,
+  reducers: {
+    add: (state, action) => {
+      state.todos.push({
+        text: action.payload,
+        completed: false,
+      });
+    },
+    toggle: (state, action) => {
+      state.todos.map((todo, i) => {
+        if (i === action.payload) {
+          todo.completed = !todo.completed;
+        }
+        return todo;
+      });
+    },
+  },
+});
+export const todoReducer = todoSlice.reducer;
 
-export function todoReducer(state = initialState, action) {
-  switch (action.type) {
-    case ADD_TODO:
-      return {
-        ...state,
-        todos: [
-          ...state.todos,
-          {
-            text: action.text,
-            completed: false,
-          },
-        ],
-      };
-    case TOGGLE_TODO:
-      return {
-        ...state,
-        todos: state.todos.map((todo, i) => {
-          if (i === action.index) {
-            todo.completed = !todo.completed;
-          }
-          return todo;
-        }),
-      };
-    default:
-      return state;
-  }
-}
+// export function todoReducer(state = initialState, action) {
+//   switch (action.type) {
+//     case ADD_TODO:
+//       return {
+//         ...state,
+//         todos: [
+//           ...state.todos,
+//           {
+//             text: action.text,
+//             completed: false,
+//           },
+//         ],
+//       };
+//     case TOGGLE_TODO:
+//       return {
+//         ...state,
+//         todos: state.todos.map((todo, i) => {
+//           if (i === action.index) {
+//             todo.completed = !todo.completed;
+//           }
+//           return todo;
+//         }),
+//       };
+//     default:
+//       return state;
+//   }
+// }
