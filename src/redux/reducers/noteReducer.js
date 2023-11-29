@@ -24,6 +24,11 @@ const noteSlice = createSlice({
 
 export const noteReducer = noteSlice.reducer;
 
+export const actions = noteSlice.actions;
+
+// Doing this to simplyfy the useSelector hook
+export const noteSelector = (state) => state.noteReducer.notes;
+
 // export function noteReducer(state = initialState, action) {
 //   switch (action.type) {
 //     case ADD_NOTE:

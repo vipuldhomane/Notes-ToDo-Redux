@@ -1,22 +1,41 @@
 import { useState } from "react";
 import "./NoteForm.css";
-import { useDispatch } from "react-redux";
-import { addNote } from "../../redux/actions/noteActions";
+import { useDispatch, useSelector } from "react-redux";
+// import { addNote } from "../../redux/actions/noteActions";
+import { actions } from "../../redux/reducers/noteReducer";
+import {
+  notificationSelector,
+  resetNotification,
+} from "../../redux/reducers/notificationReducer";
 
 function NoteForm() {
   const [NoteText, setNoteText] = useState("");
+  const message = useSelector(notificationSelector);
+  console.log(message);
 
   const dispatch = useDispatch();
 
+  if (message) {
+    setTimeout(() => {
+      dispatch(resetNotification());
+    }, 3000);
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addNote(NoteText));
+    dispatch(actions.add(NoteText));
     // onCreateNote(NoteText);
     setNoteText("");
+    // toast.success("wow");
   };
 
   return (
     <div className="container">
+      {message && (
+        <div class="alert alert-success" role="alert">
+          {message}
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <textarea
           type="text"

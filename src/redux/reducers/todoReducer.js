@@ -10,7 +10,7 @@ const initialState = {
 };
 // A function that accepts an initial state, an object of reducer functions, and a "slice name", and automatically generates action creators and action types that correspond to the reducers and state.
 const todoSlice = createSlice({
-  name: "counter",
+  name: "todo",
   initialState,
   reducers: {
     add: (state, action) => {
@@ -29,7 +29,15 @@ const todoSlice = createSlice({
     },
   },
 });
+
+// Export the reducer
 export const todoReducer = todoSlice.reducer;
+// Export the actions defined inside of the reducer
+
+export const actions = todoSlice.actions;
+
+// Selector
+export const todoSelector = (state) => state.todoReducer.todos;
 
 // export function todoReducer(state = initialState, action) {
 //   switch (action.type) {
