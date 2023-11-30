@@ -1,18 +1,31 @@
 // import { ADD_TODO, TOGGLE_TODO } from "../actions/todoActions";
 
-const { createSlice } = require("@reduxjs/toolkit");
+import axios from "axios";
+
+const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
 const initialState = {
-  todos: [
-    { text: "Go to Gym at 6", completed: false },
-    { text: "Study at 8", completed: true },
-  ],
+  todos: [],
 };
+
+export const getInitialStateAsync = createAsyncThunk(
+  "todo/setInitialState",
+  (arg, thunkAPI) => {
+    axios.get("http://localhost:4100/api/todos").then((res) => {
+      console.log(res.data);
+      // dispatch(actions.setInitialState(res.data));
+      thunkAPI.dispatch(actions.setInitialState(res.data));
+    });
+  }
+);
 // A function that accepts an initial state, an object of reducer functions, and a "slice name", and automatically generates action creators and action types that correspond to the reducers and state.
 const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
+    setInitialState: (state, action) => {
+      state.todos = [...action.payload];
+    },
     add: (state, action) => {
       state.todos.push({
         text: action.payload,

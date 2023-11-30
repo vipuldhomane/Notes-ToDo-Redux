@@ -8,7 +8,6 @@ import {
   notificationSelector,
   resetNotification,
 } from "../../redux/reducers/notificationReducer";
-import { toast } from "react-toastify";
 
 function ToDoForm() {
   const [todoText, setTodoText] = useState("");

@@ -27,6 +27,7 @@ function NoteForm() {
     // onCreateNote(NoteText);
     setNoteText("");
     // toast.success("wow");
+    // dispatch(loggerMiddleware());
   };
 
   return (
