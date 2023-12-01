@@ -8,7 +8,6 @@ import {
   todoSelector,
 } from "../../redux/reducers/todoReducer";
 import { useEffect } from "react";
-import axios from "axios";
 
 function ToDoList() {
   // const { todos } = useSelector((state) => state.todoReducer);

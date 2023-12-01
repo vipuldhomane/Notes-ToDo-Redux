@@ -10,12 +10,15 @@ const initialState = {
 
 export const getInitialStateAsync = createAsyncThunk(
   "todo/setInitialState",
-  (arg, thunkAPI) => {
-    axios.get("http://localhost:4100/api/todos").then((res) => {
-      console.log(res.data);
-      // dispatch(actions.setInitialState(res.data));
-      thunkAPI.dispatch(actions.setInitialState(res.data));
-    });
+  // (arg, thunkAPI) => {
+  //   axios.get("http://localhost:4100/api/todos").then((res) => {
+  //     console.log(res.data);
+  //     // dispatch(actions.setInitialState(res.data));
+  //     thunkAPI.dispatch(actions.setInitialState(res.data));
+  //   });
+  // }
+  () => {
+    return axios.get("http://localhost:4100/api/todos");
   }
 );
 // A function that accepts an initial state, an object of reducer functions, and a "slice name", and automatically generates action creators and action types that correspond to the reducers and state.
@@ -40,6 +43,13 @@ const todoSlice = createSlice({
         return todo;
       });
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getInitialStateAsync.fulfilled, (state, action) => {
+      console.log("getInitialState is Fulfilled ");
+      console.log(action.payload);
+      state.todos = [...action.payload.data];
+    });
   },
 });
 
